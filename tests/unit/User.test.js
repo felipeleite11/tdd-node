@@ -18,4 +18,10 @@ describe('User', () => {
 
 		expect(matched).toBe(true)
 	})
+
+	it('should create new user with admin profile as default.', async () => {
+		const user = await factories.create('User')
+
+		expect(user.profile_id).toBe(1)
+	})
 })

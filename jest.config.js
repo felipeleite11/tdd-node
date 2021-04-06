@@ -22,17 +22,20 @@ module.exports = {
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
     'src/**', 
-    '!src/database/migrations/**', 
-    '!src/server.js'
+    '!src/database/migrations/**',
+    '!src/database/seeders/**',
+    '!src/server.js',
+    '!src/config/database.js'
   ],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'tests/coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  coveragePathIgnorePatterns: [
+    "node_modules",
+    "<rootDir>/src/app.js"
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
@@ -91,7 +94,7 @@ module.exports = {
   // modulePathIgnorePatterns: [],
 
   // Activates notifications for test results
-  // notify: false,
+  notify: false,
 
   // An enum that specifies notification mode. Requires { notify: true }
   // notifyMode: "failure-change",
@@ -135,7 +138,7 @@ module.exports = {
   // setupFilesAfterEnv: [],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
-  // slowTestThreshold: 5,
+  slowTestThreshold: 5,
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
@@ -187,7 +190,7 @@ module.exports = {
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  // verbose: undefined,
+  verbose: true,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],

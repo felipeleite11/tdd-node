@@ -6,7 +6,8 @@ const { User } = require('../src/app/models')
 factory.define('User', User, {
 	name: faker.name.findName(),
 	email: faker.internet.email(),
-	password: faker.internet.password()
+	password: faker.internet.password(),
+	profile_id: 1
 })
 
 module.exports = factory

@@ -11,17 +11,17 @@ describe('Authentication', () => {
 		await truncate()
 	})
 
-	it('should authenticate with VALID credentials.', async () => {
-		const user = await factories.create('User', {
-			password: '123'
-		})
+	it('should have user and JWT token when authentication is successfully.', async () => {
+		const user = await factories.create('User')
 
 		const response = await request(app).post('/sessions').send({
 			email: user.email,
-			password: '123'
+			password: user.password
 		})
 		
 		expect(response.status).toBe(200)
+		expect(response.body).toHaveProperty('token')
+		expect(response.body).toHaveProperty('user')
 	})
 
 	it('should NOT authenticate when user not found.', async () => {
@@ -50,17 +50,6 @@ describe('Authentication', () => {
 		expect(response.status).toBe(401)
 	})
 
-	it('should have a JWT token when authentication is successfull.', async () => {
-		const user = await factories.create('User')
-
-		const response = await request(app).post('/sessions').send({
-			email: user.email,
-			password: user.password
-		})
-		
-		expect(response.body).toHaveProperty('token')
-	})
-
 	it('should be ABLE to access private routes when authenticated.', async () => {
 		const user = await factories.create('User')
 
@@ -80,10 +69,11 @@ describe('Authentication', () => {
 
 	it('should NOT be ABLE to access private routes with a INVALID JWT token.', async () => {
 		const user = await factories.create('User')
+		const reverseToken = user.generateToken().split('').reverse().join('')
 
 		const response = await request(app)
 			.get('/dashboard')
-			.set('Authorization', `Bearer ${user.generateToken().split('').reverse().join('')}`)
+			.set('Authorization', `Bearer ${reverseToken}`)
 		
 		expect(response.status).toBe(401)
 	})
